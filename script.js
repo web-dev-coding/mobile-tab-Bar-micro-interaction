@@ -1,14 +1,34 @@
+var $menuItemList;
+var $menuShadow;
+var $menuShadowImage;
+
+
+/* move shdow to active menu */
+setPosition = function($element){
+
+    var $menuItemIcon = $element.getElementsByTagName("img")[0];
+    $menuShadowImage.classList.add("hide");
+    $menuShadow.style.left = $element.getBoundingClientRect().left + "px";
+
+    $menuShadow.addEventListener('transitionend', () => {
+        $menuShadowImage.src = $menuItemIcon.src;
+        $menuShadowImage.classList.remove("hide");
+    });
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
-    var menu = document.getElementById("menu");
-    var menuItemList = document.querySelectorAll('.menu__item');
-    var menuShadow = document.getElementById("menu__shadow");
+    $menuItemList = document.querySelectorAll('.menu__item');
+    $menuShadow = document.getElementById("menu__shadow");
+    $menuShadowImage = $menuShadow.getElementsByTagName("img")[0];
 
-    menuItemList.forEach(element => {
-        element.addEventListener('click', event => {
-          
-            menuShadow.style.left = element.getBoundingClientRect().left + "px";
-            console.log(menuShadow.style.left);
+    // set iniatal position
+    $menuItemList.forEach($element => {
+        $element.addEventListener('click', event => {
+            setPosition($element);
         });
-      })
+    });
 
-  });
+    // initial position
+    setPosition(document.querySelectorAll('.menu__item')[0]);
+
+});
